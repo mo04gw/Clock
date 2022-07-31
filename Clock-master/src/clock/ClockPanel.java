@@ -17,8 +17,10 @@ public class ClockPanel extends JPanel {
     }
     
     public void paintComponent(Graphics g) {
+        //Call parent
         super.paintComponent(g);
         
+        //Dimensions of the screen area -> drawing clock face
         Rectangle bounds = getBounds();
         //System.out.println(bounds);
         

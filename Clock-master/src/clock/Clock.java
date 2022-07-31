@@ -1,5 +1,10 @@
 package clock;
 
+//Checking if the imports from priority queue jar are working
+import queuemanager.PriorityItem;
+import queuemanager.SortedArrayPriorityQueue;
+
+
 public class Clock {
     
     public static void main(String[] args) {
