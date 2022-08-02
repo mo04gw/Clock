@@ -1,6 +1,8 @@
 package clock;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.Observer;
 import java.util.Observable;
@@ -9,6 +11,10 @@ public class View implements Observer {
     
     ClockPanel panel;
     //Container pane;
+    //Global buttons to be called from ActionEvent
+    private JButton buttonAdd;
+    private JButton buttonRemove;
+    private MyActionListener act;
 
     
     public View(Model model) {
@@ -26,33 +32,48 @@ public class View implements Observer {
         JPanel panel_top= new JPanel();
         JPanel panel_left = new JPanel();
         JPanel panel_right = new JPanel();
-        JPanel panel_bottom = new JPanel();
+        //JPanel panel_bottom = new JPanel();
         JPanel panel_centre = panel;
        
         panel_top.setBackground(new Color(0x344765));
         panel_left.setBackground(new Color(0x344765));
         panel_right.setBackground(new Color(0x344765));
-        panel_bottom.setBackground(new Color(0x344765));
+        //panel_bottom.setBackground(new Color(0x344765));
         
         panel_top.setPreferredSize(new Dimension(100, 50));
         panel_left.setPreferredSize(new Dimension(100, 100));
         panel_right.setPreferredSize(new Dimension(100, 100));
-        panel_bottom.setPreferredSize(new Dimension(100, 100));
+        //panel_bottom.setPreferredSize(new Dimension(100, 100));
         panel_centre.setPreferredSize(new Dimension(200, 200));
+        
+       
+        
+        //Adding a JPanel containing buttoms, as we cannot add two items to the same BorderLayout
+        JPanel btns = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btns.setBackground(new Color(0x344765));
+        btns.setPreferredSize(new Dimension(100, 100));
+        
+        //Buttons alarm
+        //Based on the algorithm of Choobtorials
+        //Choobtorials, Java GUI Tutorial Part 2 - Creating an Event Handler - https://www.youtube.com/watch?v=cyZzPo0ssp8 (18/02/2019) 
+        buttonAdd = new JButton("Add Alarm");
+        act = new MyActionListener();
+        buttonAdd.addActionListener(act);
+       
+        //Adding the listener to the button
+        btns.add(buttonAdd);
+        
+        buttonRemove = new JButton("Remove Alarm");
+        buttonRemove.addActionListener(act);
+        btns.add(buttonRemove);
+        
+        btns.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         
         frame.add(panel_top, BorderLayout.NORTH);
         frame.add(panel_left, BorderLayout.WEST);
         frame.add(panel_right, BorderLayout.EAST);
-        frame.add(panel_bottom, BorderLayout.SOUTH);
+        frame.add(btns, BorderLayout.SOUTH);
         frame.add(panel_centre, BorderLayout.CENTER);
-        
-        
-        //Buttons alarm
-        JButton buttonAdd = new JButton("Add Alarm");
-        panel_bottom.add(buttonAdd, BorderLayout.LINE_START);
-        
-        JButton buttonRemove = new JButton("Remove Alarm");
-        panel_bottom.add(buttonAdd, BorderLayout.LINE_END);
         //frame.setContentPane(panel);
         
         //pane = frame.getContentPane();
@@ -80,4 +101,17 @@ public class View implements Observer {
     public void update(Observable o, Object arg) {
         panel.repaint();
     }
+    
+    //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA
+    //Listen for events, implemented after adding the buttons
+    private class MyActionListener implements ActionListener{
+        
+        @Override
+        public void actionPerformed(ActionEvent e){
+            if(e.getSource() == buttonAdd){
+            System.out.println("Add Alarm");
+        }else if(e.getSource()== buttonRemove){
+             System.out.println("Delete Alarm");   
+            }
+    }}
 }
