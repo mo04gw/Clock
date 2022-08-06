@@ -6,6 +6,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.Observer;
 import java.util.Observable;
+import java.util.Calendar;
+import queuemanager.PriorityQueue;
+import queuemanager.SortedArrayPriorityQueue;
+
+//https://codereview.stackexchange.com/questions/47921/alarm-clock-with-ringing-functionality
+
 
 public class View implements Observer {
     
@@ -19,15 +25,30 @@ public class View implements Observer {
     
     public View(Model model) {
         
+        
         JFrame frame = new JFrame();
+        //Menu bar
+        JMenuBar menuBar;
+        JMenu menu;
+        //JPanel Clock
+        panel = new ClockPanel(model);
+        
+        //Adding a JPanel containing buttoms, as we cannot add two items to the same BorderLayout
+        JPanel btns = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        menuBar = new JMenuBar();
+        menu = new JMenu("Test");
+        menu.getAccessibleContext().setAccessibleDescription("Menu2");
+        menuBar.add(menu);
+        //frame.setMenuBar(menuBar);
+        
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Java Clock");
         frame.setSize(600,500);
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
-        //JPanel Clock
-        panel = new ClockPanel(model);
+     
 
         JPanel panel_top= new JPanel();
         JPanel panel_left = new JPanel();
@@ -35,39 +56,37 @@ public class View implements Observer {
         //JPanel panel_bottom = new JPanel();
         JPanel panel_centre = panel;
        
-        panel_top.setBackground(new Color(0x344765));
-        panel_left.setBackground(new Color(0x344765));
-        panel_right.setBackground(new Color(0x344765));
-        //panel_bottom.setBackground(new Color(0x344765));
+        //Panel color
+        panel_top.setBackground(new Color(0xcbd7df));
+        panel_left.setBackground(new Color(0xcbd7df));
+        panel_right.setBackground(new Color(0xcbd7df));
         
+        //Panel dimension
         panel_top.setPreferredSize(new Dimension(100, 50));
         panel_left.setPreferredSize(new Dimension(100, 100));
         panel_right.setPreferredSize(new Dimension(100, 100));
         //panel_bottom.setPreferredSize(new Dimension(100, 100));
         panel_centre.setPreferredSize(new Dimension(200, 200));
         
-       
-        
-        //Adding a JPanel containing buttoms, as we cannot add two items to the same BorderLayout
-        JPanel btns = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        btns.setBackground(new Color(0x344765));
-        btns.setPreferredSize(new Dimension(100, 100));
+        //Buttons styles!
+        btns.setBackground(new Color(0xcbd7df));
+        btns.setBounds(80,30, 120, 40);
+        btns.setFont(new Font("Calibri", Font.BOLD, 25));
         
         //Buttons alarm
         //Based on the algorithm of Choobtorials
         //Choobtorials, Java GUI Tutorial Part 2 - Creating an Event Handler - https://www.youtube.com/watch?v=cyZzPo0ssp8 (18/02/2019) 
         buttonAdd = new JButton("Add Alarm");
+        buttonRemove = new JButton("Remove Alarm");
         act = new MyActionListener();
         buttonAdd.addActionListener(act);
-       
+        buttonRemove.addActionListener(act);
+        
         //Adding the listener to the button
         btns.add(buttonAdd);
-        
-        buttonRemove = new JButton("Remove Alarm");
-        buttonRemove.addActionListener(act);
         btns.add(buttonRemove);
         
-        btns.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        //btns.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         
         frame.add(panel_top, BorderLayout.NORTH);
         frame.add(panel_left, BorderLayout.WEST);
@@ -75,26 +94,6 @@ public class View implements Observer {
         frame.add(btns, BorderLayout.SOUTH);
         frame.add(panel_centre, BorderLayout.CENTER);
         //frame.setContentPane(panel);
-        
-        //pane = frame.getContentPane();
-        //pane.add(panel, BorderLayout.CENTER);
-        //frame.setContentPane(panel);
-        //frame.setContentPane(panel);
-        /*
-        //Buttons
-        JButton button = new JButton("Button 1 (PAGE_START)");
-        pane.add(button, BorderLayout.PAGE_START);
-         
-        button = new JButton("Button 3 (LINE_START)");
-        pane.add(button, BorderLayout.LINE_START);
-         
-        button = new JButton("Long-Named Button 4 (PAGE_END)");
-        pane.add(button, BorderLayout.PAGE_END);
-         
-        button = new JButton("5 (LINE_END)");
-        pane.add(button, BorderLayout.LINE_END);
-        */
-        // End of borderlayout code
         frame.pack();
     }
     
