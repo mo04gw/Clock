@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.util.Observer;
 import java.util.Observable;
 import java.util.Calendar;
+import java.util.Date;
 import queuemanager.PriorityQueue;
 import queuemanager.SortedArrayPriorityQueue;
 
@@ -22,7 +23,8 @@ import queuemanager.SortedArrayPriorityQueue;
  * --> " 'Alarm clock with "ringing" functionality' by Jamal | CodeReview, StackExchange, 22 Apr. 2014, [online] Available at: https://codereview.stackexchange.com/questions/47921/alarm-clock-with-ringing-functionality (Accessed: 05/08/2022)".
  * --> " Choobtorials, Java GUI Tutorial Part 2 - Creating an Event Handler, 18 Feb. 2019, -[online]- Available at:  https://www.youtube.com/watch?v=cyZzPo0ssp8 ,(Accessed: 02/08/2022)"
  * --> " Java GUI by Bro Code, YouTube, 14 Sep. 2020, [online] Available at: https://www.youtube.com/watch?v=Kmgo00avvEw (Accessed: 02/08/2022)" 
- */
+ * --> " Java Custom SpinnerDateModel to edit only hour and minute , Answered by MadProgrammer, Stack Overflow, 16 Feb. 2018, [online] Available at: https://stackoverflow.com/questions/48834383/java-custom-spinnerdatemodel-to-edit-only-hour-and-minute (Accessed: 08/08/2022)"
+*/
 
 public class View implements Observer {
     
@@ -33,6 +35,13 @@ public class View implements Observer {
     JFrame frame = new JFrame();
     //Initializing Priority Queue
     queuemanager.SortedArrayPriorityQueue priority = new SortedArrayPriorityQueue<>(8);
+    Calendar calendar = Calendar.getInstance();
+    
+    //Declaring parameters to be used in Alarm.java later & userInput to get the time to set the alarm for the user
+    String name;
+    int hours;
+    int min;
+
    
     
     public View(Model model) {
@@ -44,10 +53,10 @@ public class View implements Observer {
         JMenu closeMenu = new JMenu("Exit");
         
         //Menu Items
-        JMenuItem addAlarm = new JMenuItem("Add new Alarm");
-        JMenuItem editAlarm = new JMenuItem("Edit Alarm");
-        JMenuItem deleteAlarm = new JMenuItem("Delete Alarm");
-        JMenuItem close = new JMenuItem("Exit Program");
+        JMenuItem addAlarm = new JMenuItem("Add new Alarm", 'A');
+        JMenuItem editAlarm = new JMenuItem("Edit Alarm", 'E');
+        JMenuItem deleteAlarm = new JMenuItem("Delete Alarm", 'D');
+        JMenuItem close = new JMenuItem("Exit Program", 'X');
         
         //Adding to Menu items options
         addMenu.add(addAlarm);
@@ -123,14 +132,65 @@ public class View implements Observer {
         frame.add(btns, BorderLayout.SOUTH);
         frame.add(panel_centre, BorderLayout.CENTER);
         //frame.setContentPane(panel);
+       
+        //JComboBox comboBox = new JComboBox();
         frame.pack();
-        
         
     }
     
-    //Alarm settings (asking from user)
-    public void userInput(ActionEvent e){
-        JTextField nameAlarm = new JTextField(10);
+    //Asks for parameters to set an alarm (asking from user to click button or menu add alarm)
+    public void newAlarm(ActionEvent e){
+        
+        //Adding SpinnerModel 
+        //Get calendar -> current time
+        //Based on the solution showed by MadProgrammer, Stack Overflow (see list of references top of the page)
+        //Calendar (cal) already defined globally
+        
+        JFrame addAlarm = new JFrame("Add Alarm");
+        JTextField hours = new JTextField();
+        hours.setHorizontalAlignment(JTextField.LEFT);
+        JTextField min = new JTextField();
+        min.setHorizontalAlignment(JTextField.RIGHT);
+        
+        addAlarm.add(new JLabel("Hours"));
+        addAlarm.add(hours);
+        
+        
+        
+        
+        
+        
+        //I couldn't make my spinner to work, so I swapped to an inputPanel instead
+       /*
+        JFrame frame2 = new JFrame("Add Alarm");
+        
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+            
+        Date startTime = calendar.getTime();
+            
+        calendar.set(Calendar.HOUR, 23);
+        calendar.set(Calendar.MINUTE, 59);
+            
+        Date endTime = calendar.getTime();
+
+        //Setting Min and Max (Hour and Minutes)
+        SpinnerDateModel pickMin = new SpinnerDateModel(startTime, null, endTime, Calendar.MINUTE);
+        SpinnerDateModel pickHour = new SpinnerDateModel(startTime, null, endTime, Calendar.HOUR);
+        
+        JSpinner spinnerMin = new JSpinner(pickMin);
+        JSpinner spinnerHour = new JSpinner(pickHour);
+        
+        JComponent editor = new JSpinner.DateEditor(spinnerMin, "HH:mm");
+        
+        System.out.println("startTime!" + startTime);
+        System.out.println("endTime!" + endTime);*/
+       
+       
+        
+       
+        
+        
         
     }
     
@@ -148,8 +208,11 @@ public class View implements Observer {
         
         @Override
         public void actionPerformed(ActionEvent e){
-            if(e.getSource() == buttonAdd){
-            System.out.println("Add Alarm");
+            if(e.getSource() == buttonAdd ){
+      
+        System.out.println("Add Alarm" );
+        newAlarm(e);
+        
         }else if(e.getSource()== buttonRemove){
              System.out.println("Delete Alarm");   
             }
