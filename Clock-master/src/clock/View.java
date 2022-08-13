@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Calendar;
 import java.util.Date;
 import queuemanager.PriorityQueue;
+import queuemanager.QueueOverflowException;
 import queuemanager.SortedArrayPriorityQueue;
 
 
@@ -27,15 +28,16 @@ import queuemanager.SortedArrayPriorityQueue;
 */
 
 public class View implements Observer {
-    
+    SortedArrayPriorityQueue<NewAlarm> sortedArrayPriorityQueue;
+
     ClockPanel panel;
     //Global buttons to be called from ActionEvent
     private JButton buttonAdd, buttonRemove;
     private MyActionListener act;
-    JFrame frame = new JFrame();
+    private int size;
+    JFrame frame;
     //Initializing Priority Queue
-    queuemanager.SortedArrayPriorityQueue priority = new SortedArrayPriorityQueue<>(8);
-    Calendar calendar = Calendar.getInstance();
+    Calendar calendar;
     
     //Declaring parameters to be used in Alarm.java later & userInput to get the time to set the alarm for the user
     String name;
@@ -46,7 +48,11 @@ public class View implements Observer {
    
     
     public View(Model model) {
-        
+
+        frame = new JFrame();
+        calendar = Calendar.getInstance();
+        sortedArrayPriorityQueue = new SortedArrayPriorityQueue(size);
+
         //Menu bar
         JMenuBar menuBar = new JMenuBar();
         JMenu addMenu = new JMenu("Add");
@@ -140,11 +146,17 @@ public class View implements Observer {
     }
     
     //References: https://www.youtube.com/watch?v=VL4hNtBQZuU
-    public void newAlarm(ActionEvent e){
+    public void createAlarm(ActionEvent e){
         
-     
         
-       // addAlarm.add(new JLabel("Hours"));
+        NewAlarm alarm = new NewAlarm(new Model());
+
+        try {
+            sortedArrayPriorityQueue.add(alarm, 0);
+        } catch(QueueOverflowException queueOverflowException) {
+            queueOverflowException.printStackTrace();
+        }
+            // addAlarm.add(new JLabel("Hours"));
         /*JFrame frameAdd = new JFrame("Add Alarm");
         frameAdd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Date date = new Date();
@@ -156,12 +168,9 @@ public class View implements Observer {
         frameAdd.setSize(500, 400);
         frameAdd.setVisible(true);
         */  
+       
     }
     
-
-    private void setJMenuBar(JMenuBar menuBar) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA
     //Listen for events, implemented after adding the buttons
@@ -172,8 +181,8 @@ public class View implements Observer {
             if (e.getSource() == buttonAdd) {
 
                 System.out.println("Add Alarm");
-                newAlarm(e);
-
+                createAlarm(e);
+                   
             } else if (e.getSource() == buttonRemove) {
                 System.out.println("Delete Alarm");
             }
