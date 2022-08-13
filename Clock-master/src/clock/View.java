@@ -41,7 +41,8 @@ public class View implements Observer {
     String name;
     int hours;
     int min;
-
+    
+    NewAlarm newAlarm;
    
     
     public View(Model model) {
@@ -138,83 +139,48 @@ public class View implements Observer {
         
     }
     
-    //Asks for parameters to set an alarm (asking from user to click button or menu add alarm)
+    //References: https://www.youtube.com/watch?v=VL4hNtBQZuU
     public void newAlarm(ActionEvent e){
         
-        //Adding SpinnerModel 
-        //Get calendar -> current time
-        //Based on the solution showed by MadProgrammer, Stack Overflow (see list of references top of the page)
-        //Calendar (cal) already defined globally
+     
         
-        JFrame addAlarm = new JFrame("Add Alarm");
-        JTextField hours = new JTextField();
-        hours.setHorizontalAlignment(JTextField.LEFT);
-        JTextField min = new JTextField();
-        min.setHorizontalAlignment(JTextField.RIGHT);
-        
-        addAlarm.add(new JLabel("Hours"));
-        addAlarm.add(hours);
-        
-        
-        
-        
-        
-        
-        //I couldn't make my spinner to work, so I swapped to an inputPanel instead
-       /*
-        JFrame frame2 = new JFrame("Add Alarm");
-        
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-            
-        Date startTime = calendar.getTime();
-            
-        calendar.set(Calendar.HOUR, 23);
-        calendar.set(Calendar.MINUTE, 59);
-            
-        Date endTime = calendar.getTime();
-
-        //Setting Min and Max (Hour and Minutes)
-        SpinnerDateModel pickMin = new SpinnerDateModel(startTime, null, endTime, Calendar.MINUTE);
-        SpinnerDateModel pickHour = new SpinnerDateModel(startTime, null, endTime, Calendar.HOUR);
-        
-        JSpinner spinnerMin = new JSpinner(pickMin);
-        JSpinner spinnerHour = new JSpinner(pickHour);
-        
-        JComponent editor = new JSpinner.DateEditor(spinnerMin, "HH:mm");
-        
-        System.out.println("startTime!" + startTime);
-        System.out.println("endTime!" + endTime);*/
-       
-       
-        
-       
-        
-        
-        
+       // addAlarm.add(new JLabel("Hours"));
+        /*JFrame frameAdd = new JFrame("Add Alarm");
+        frameAdd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Date date = new Date();
+        SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
+        JSpinner spinner = new JSpinner(sm);
+        JSpinner.DateEditor de = new JSpinner.DateEditor(spinner, "HH:mm dd/MM/yyyy");
+        spinner.setEditor(de);
+        frameAdd.add(spinner, BorderLayout.NORTH);
+        frameAdd.setSize(500, 400);
+        frameAdd.setVisible(true);
+        */  
     }
     
-    public void update(Observable o, Object arg) {
-        panel.repaint();
-    }
 
     private void setJMenuBar(JMenuBar menuBar) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA
     //Listen for events, implemented after adding the buttons
-    private class MyActionListener implements ActionListener{
-        
+    private class MyActionListener implements ActionListener {
+
         @Override
-        public void actionPerformed(ActionEvent e){
-            if(e.getSource() == buttonAdd ){
-      
-        System.out.println("Add Alarm" );
-        newAlarm(e);
-        
-        }else if(e.getSource()== buttonRemove){
-             System.out.println("Delete Alarm");   
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == buttonAdd) {
+
+                System.out.println("Add Alarm");
+                newAlarm(e);
+
+            } else if (e.getSource() == buttonRemove) {
+                System.out.println("Delete Alarm");
             }
-    }}
+        }
+    }
+
+    public void update(Observable o, Object arg) {
+        panel.repaint();
+    }
 }
