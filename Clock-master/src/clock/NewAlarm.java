@@ -52,9 +52,20 @@ public class NewAlarm extends JFrame {
         jPanel = new JPanel();
 
         dateModel = new SpinnerDateModel();
+       
         jSpinner = new JSpinner(dateModel);
 
+        
         jSpinner.setEditor(new JSpinner.DateEditor(jSpinner, "hh:mm:ss dd/MM/yyyy"));
+        
+        //Disable edition from keyboard, so the user cannot input '550' hours for example
+        //double click in each field to change the time with the arrows is not clear either for an user?!
+        
+         JFormattedTextField formatedText = ((JSpinner.DefaultEditor)jSpinner.getEditor()).getTextField();
+        formatedText.setEditable(false);
+        formatedText.setEnabled(true);
+        formatedText.setBackground(Color.white);
+        
         container.add(new JLabel("Add alarm"));
         container.add(jSpinner);
 
@@ -73,8 +84,10 @@ public class NewAlarm extends JFrame {
         //Display the window
         jFrame.pack();
  
+     
+        String value = (String) jSpinner.getValue();
         //System.out.println("----------------------------------->here");
-        System.out.println("jSpinner" + jSpinner);
+        System.out.println("jSpinner" + value);
 
     }
 
