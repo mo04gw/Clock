@@ -8,9 +8,7 @@ import java.util.Observer;
 import java.util.Observable;
 import java.util.Calendar;
 import java.util.Date;
-import queuemanager.PriorityQueue;
-import queuemanager.QueueOverflowException;
-import queuemanager.SortedArrayPriorityQueue;
+
 
 
 /* 
@@ -28,7 +26,7 @@ import queuemanager.SortedArrayPriorityQueue;
 */
 
 public class View implements Observer {
-    SortedArrayPriorityQueue<NewAlarm> sortedArrayPriorityQueue;
+    
 
     ClockPanel panel;
     //Global buttons to be called from ActionEvent
@@ -51,7 +49,7 @@ public class View implements Observer {
 
         frame = new JFrame();
         calendar = Calendar.getInstance();
-        sortedArrayPriorityQueue = new SortedArrayPriorityQueue(size);
+        //sortedArrayPriorityQueue = new SortedArrayPriorityQueue(size);
 
         //Menu bar
         JMenuBar menuBar = new JMenuBar();
@@ -118,7 +116,7 @@ public class View implements Observer {
         btns.setFont(new Font("Calibri", Font.BOLD, 25));
         
         //Buttons alarm
-        //Based on the algorithm of Choobtorials (see list of references top of the page)
+        //Based on the code of Choobtorials (see list of references top of the page)
         //
         buttonAdd = new JButton("Add Alarm");
         buttonRemove = new JButton("Remove Alarm");
@@ -151,12 +149,12 @@ public class View implements Observer {
         
         NewAlarm alarm = new NewAlarm(new Model());
 
-        try {
+   /*     try {
             sortedArrayPriorityQueue.add(alarm, 0);
         } catch(QueueOverflowException queueOverflowException) {
             queueOverflowException.printStackTrace();
         }
-         
+         */
     }
     
 

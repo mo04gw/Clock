@@ -13,8 +13,9 @@ import java.awt.FlowLayout;
 /**
  *
  * @author heidi
- * 
- * @update: NewAlarm is now in a different class to follow the Model-View-Controller Architecture
+ *
+ * @update: NewAlarm is now in a different class to follow the
+ * Model-View-Controller Architecture
  */
 public class NewAlarm extends JFrame {
 
@@ -26,35 +27,36 @@ public class NewAlarm extends JFrame {
     JSpinner jSpinner;
     JButton jButtonAdd;
     JButton jButtonCancel;
-    
+
     //Asks for parameters to set an alarm (asking from user to click button or menu add alarm)
     //Changed from View Class to -> NewAlarm (model)
+    //After pressing the button, it will check if the date or time selected are actually bigger than the actual date before setting the alarm
     
     
     public NewAlarm(Model model) {
- 
+
         //references: https://stackoverflow.com/questions/21179770/jpinner-setmodel-not-allowing-to-change-value/21185580#21185580
         
         this.model = model;
-        
+
         jFrame = new JFrame("Add Alarms");
-        jFrame.setSize(400,300);
+        jFrame.setSize(200, 300);
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-         jFrame.setPreferredSize(new Dimension(200, 200));
-        
+        jFrame.setPreferredSize(new Dimension(300, 200));
+
         Container container = jFrame.getContentPane();
         container.setLayout(new FlowLayout());
-        
+
         jPanel = new JPanel();
- 
+
         dateModel = new SpinnerDateModel();
         jSpinner = new JSpinner(dateModel);
-        
+
         jSpinner.setEditor(new JSpinner.DateEditor(jSpinner, "hh:mm:ss dd/MM/yyyy"));
-        container.add(new JLabel("Add alarm "));
+        container.add(new JLabel("Add alarm"));
         container.add(jSpinner);
-        
+
         jButtonAdd = new JButton("Add Alarm");
         jButtonCancel = new JButton("Cancel");
         
@@ -62,11 +64,28 @@ public class NewAlarm extends JFrame {
         container.add(jButtonAdd);
         container.add(jButtonCancel);
         
+        //Adding listeners to the buttons
+        //jButtonAdd.addActionListener();
+        //jButtonCancel.addActionListener();
+
         //Display the window
         jFrame.pack();
+ 
+        //System.out.println("----------------------------------->here");
 
-        System.out.println("----------------------------------->here");
+    }
 
+    public static boolean isAfterToday(int year, int month, int day) {
+        Calendar today = Calendar.getInstance();
+        Calendar myDate = Calendar.getInstance();
+
+        myDate.set(year, month, day);
+
+        if (myDate.before(today)) {
+            return false;
+
+        }
+        return true;
     }
 
     public void update(Observable o, Object o1) {

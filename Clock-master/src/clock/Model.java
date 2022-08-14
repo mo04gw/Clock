@@ -42,15 +42,15 @@ public class Model extends Observable {
     
     public void createAlarm(Date datetime){
         
-        sortedArrayPriorityQueue = new SortedArrayPriorityQueue(8);
+        //new alarm object
+        alarm = new Alarm(datetime);
+        sortedArrayPriorityQueue = new SortedArrayPriorityQueue(3);
         
         //DateFormat date (HH:mm dd/MM/yyyy) (Input from newAlarm)
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
         //Formatting the date &time from the JSpinner
-        
-        
-        
-        
+          
     }
+
 
 }
