@@ -27,6 +27,7 @@ public class NewAlarm extends JFrame {
     JSpinner jSpinner;
     JButton jButtonAdd;
     JButton jButtonCancel;
+    private MyActionListener action;
 
     //Asks for parameters to set an alarm (asking from user to click button or menu add alarm)
     //Changed from View Class to -> NewAlarm (model)
@@ -35,7 +36,7 @@ public class NewAlarm extends JFrame {
     
     public NewAlarm(Model model) {
 
-        //references: https://stackoverflow.com/questions/21179770/jpinner-setmodel-not-allowing-to-change-value/21185580#21185580
+        //references: https://stackoverflow.com/questions/21179770/jpinner-setmodel-not-allowing-to-change-value/21185580#21185580   - - https://docs.oracle.com/javase/8/docs/technotes/guides/swing/1.4/spinner.html
         
         this.model = model;
 
@@ -65,13 +66,15 @@ public class NewAlarm extends JFrame {
         container.add(jButtonCancel);
         
         //Adding listeners to the buttons
-        //jButtonAdd.addActionListener();
-        //jButtonCancel.addActionListener();
+        action = new MyActionListener();
+        jButtonAdd.addActionListener(action);
+        jButtonCancel.addActionListener(action);
 
         //Display the window
         jFrame.pack();
  
         //System.out.println("----------------------------------->here");
+        System.out.println("jSpinner" + jSpinner);
 
     }
 
@@ -88,6 +91,26 @@ public class NewAlarm extends JFrame {
         return true;
     }
 
+
+    //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA
+    //Listen for events, implemented after adding the buttons
+    //https://stackoverflow.com/questions/30908303/i-cannot-close-jframe?noredirect=1&lq=1 (Dispose dialog box)
+    private class MyActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == jButtonAdd) {
+
+                System.out.println("Add Alarm");
+                
+                   
+            } else if (e.getSource() == jButtonCancel) {
+                System.out.println("Cancel Alarm");
+                
+                jFrame.dispose();
+            }
+        }
+    }
     public void update(Observable o, Object o1) {
 
     }
