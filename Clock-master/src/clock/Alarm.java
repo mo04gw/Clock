@@ -7,6 +7,10 @@ package clock;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import queuemanager.SortedArrayPriorityQueue;
+import queuemanager.PriorityQueue;
+import queuemanager.QueueOverflowException;
+
 
 /**
  *
@@ -16,10 +20,12 @@ import java.util.Date;
  */
 public class Alarm {
 
-    //int hours;
-    //int min;
-    //int priority;
-    //String name;
+    int hours;
+    int min;
+    int priority;
+    
+    SortedArrayPriorityQueue<NewAlarm> sortedArrayPriorityQueue;
+    Alarm alarm;
 
     public Alarm(Date alarm) {
        
@@ -40,5 +46,16 @@ public class Alarm {
     //String minutes=cal.get(Calendar.MINUTE);
     }
     
+       public void createAlarm(Date datetime) {
+
+        //new alarm object
+        alarm = new Alarm(datetime);
+        sortedArrayPriorityQueue = new SortedArrayPriorityQueue(3);
+
+        //DateFormat date (HH:mm dd/MM/yyyy) (Input from newAlarm)
+        //DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        //Formatting the date &time from the JSpinner
+
+    }
     
 }

@@ -5,29 +5,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Observable;
 //import java.util.GregorianCalendar;
-import queuemanager.PriorityQueue;
-import queuemanager.QueueOverflowException;
-import queuemanager.SortedArrayPriorityQueue;
 import java.util.Calendar;
 import java.util.Date;
 
-
-
 public class Model extends Observable {
-    
+
     int hour = 0;
     int minute = 0;
     int second = 0;
     int oldSecond = 0;
-    
-    SortedArrayPriorityQueue<NewAlarm> sortedArrayPriorityQueue;
-    
-    Alarm alarm;
-    
+
+   
+
     public Model() {
         update();
     }
-    
+
     public void update() {
         Calendar date = Calendar.getInstance();
         hour = date.get(Calendar.HOUR);
@@ -39,18 +32,5 @@ public class Model extends Observable {
             notifyObservers();
         }
     }
-    
-    public void createAlarm(Date datetime){
-        
-        //new alarm object
-        alarm = new Alarm(datetime);
-        sortedArrayPriorityQueue = new SortedArrayPriorityQueue(3);
-        
-        //DateFormat date (HH:mm dd/MM/yyyy) (Input from newAlarm)
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
-        //Formatting the date &time from the JSpinner
-          
-    }
-
 
 }

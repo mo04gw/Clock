@@ -85,7 +85,7 @@ public class NewAlarm extends JFrame {
         jFrame.pack();
  
      
-        String value = (String) jSpinner.getValue();
+        Date value = (Date) jSpinner.getValue();
         //System.out.println("----------------------------------->here");
         System.out.println("jSpinner" + value);
 
@@ -115,7 +115,7 @@ public class NewAlarm extends JFrame {
             if (e.getSource() == jButtonAdd) {
 
                 System.out.println("Add Alarm");
-                
+
                    
             } else if (e.getSource() == jButtonCancel) {
                 System.out.println("Cancel Alarm");
@@ -124,6 +124,7 @@ public class NewAlarm extends JFrame {
             }
         }
     }
+
     public void update(Observable o, Object o1) {
 
     }
