@@ -95,7 +95,7 @@ public class View implements Observer {
         JPanel panel_top= new JPanel();
         JPanel panel_left = new JPanel();
         JPanel panel_right = new JPanel();
-        //JPanel panel_bottom = new JPanel();
+        JPanel panel_bottom = new JPanel();
         JPanel panel_centre = panel;
         //Adding a JPanel containing buttoms, as we cannot add two items to the same BorderLayout
         JPanel btns = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -109,7 +109,7 @@ public class View implements Observer {
         panel_top.setPreferredSize(new Dimension(100, 50));
         panel_left.setPreferredSize(new Dimension(100, 100));
         panel_right.setPreferredSize(new Dimension(100, 100));
-        //panel_bottom.setPreferredSize(new Dimension(100, 100));
+        panel_bottom.setPreferredSize(new Dimension(100, 100));
         panel_centre.setPreferredSize(new Dimension(200, 200));
         
         //Buttons style
@@ -156,19 +156,7 @@ public class View implements Observer {
         } catch(QueueOverflowException queueOverflowException) {
             queueOverflowException.printStackTrace();
         }
-            // addAlarm.add(new JLabel("Hours"));
-        /*JFrame frameAdd = new JFrame("Add Alarm");
-        frameAdd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Date date = new Date();
-        SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-        JSpinner spinner = new JSpinner(sm);
-        JSpinner.DateEditor de = new JSpinner.DateEditor(spinner, "HH:mm dd/MM/yyyy");
-        spinner.setEditor(de);
-        frameAdd.add(spinner, BorderLayout.NORTH);
-        frameAdd.setSize(500, 400);
-        frameAdd.setVisible(true);
-        */  
-       
+         
     }
     
 

@@ -8,6 +8,7 @@ import java.util.Observer;
 import java.util.Observable;
 import java.util.Calendar;
 import java.util.Date;
+import java.awt.FlowLayout;
 
 /**
  *
@@ -18,62 +19,58 @@ import java.util.Date;
 public class NewAlarm extends JFrame {
 
     Model model;
-
     JFrame jFrame;
     Date date;
-
+    JPanel jPanel;
+    SpinnerDateModel dateModel;
+    JSpinner jSpinner;
+    JButton jButtonAdd;
+    JButton jButtonCancel;
+    
     //Asks for parameters to set an alarm (asking from user to click button or menu add alarm)
     //Changed from View Class to -> NewAlarm (model)
     
     
     public NewAlarm(Model model) {
-        GridLayout gridLayout = new GridLayout(0,2);
-        jFrame = new JFrame("Add Alarm");
-        date = new Date();
+ 
+        //references: https://stackoverflow.com/questions/21179770/jpinner-setmodel-not-allowing-to-change-value/21185580#21185580
+        
         this.model = model;
-        //Defined in Model.java
-        Container container = getContentPane();
-        container.setLayout(gridLayout);
         
-        SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-        JSpinner spinner = new JSpinner(sm);
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spinner, "HH:mm dd/MM/yyyy");
-        spinner.setEditor(dateEditor);
-        
-    
-        container.add(dateEditor);
-        
-        //panel.add(sm);
-        
-        JButton buttonAccept = new JButton("Set Alarm");
-        JButton buttonCancel = new JButton("Cancel");
-        JButton buttonClear = new JButton("Clear");
-
-  
-
-        container.add(buttonAccept);
-        container.add(buttonCancel);
-        container.add(buttonClear);
-
-        // set the jframe size and location, and make it visible
-        jFrame.setSize(600,500);
-        jFrame.getContentPane().add(container);
-        jFrame.setPreferredSize(new Dimension(400, 300));
-        jFrame.pack();
-        jFrame.setLocationRelativeTo(null);
-        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrame = new JFrame("Add Alarms");
+        jFrame.setSize(400,300);
         jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         jFrame.setPreferredSize(new Dimension(200, 200));
+        
+        Container container = jFrame.getContentPane();
+        container.setLayout(new FlowLayout());
+        
+        jPanel = new JPanel();
+ 
+        dateModel = new SpinnerDateModel();
+        jSpinner = new JSpinner(dateModel);
+        
+        jSpinner.setEditor(new JSpinner.DateEditor(jSpinner, "hh:mm:ss dd/MM/yyyy"));
+        container.add(new JLabel("Add alarm "));
+        container.add(jSpinner);
+        
+        jButtonAdd = new JButton("Add Alarm");
+        jButtonCancel = new JButton("Cancel");
+        
+        
+        container.add(jButtonAdd);
+        container.add(jButtonCancel);
+        
+        //Display the window
+        jFrame.pack();
+
         System.out.println("----------------------------------->here");
-        int abc = 5;
 
     }
 
     public void update(Observable o, Object o1) {
 
     }
-    
-    
-    
-    
 
 }
