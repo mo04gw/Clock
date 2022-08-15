@@ -51,11 +51,19 @@ public class Alarm implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object o1) {
-        if (o1 == null) {
+    public void update(Observable o, Object arg) {
+
+        System.out.println("alarm arg: " + arg);
+        if (arg == null) {
             return;
         }
-        Date currentDateTime = (Date) o1;
+        System.out.println("alarm arg class name: " + arg.getClass().getName());
+        System.out.println("");
+
+        if (arg == null) {
+            return;
+        }
+        Date currentDateTime = (Date) arg;
         System.out.println("currentDateTime: " + currentDateTime);
         System.out.println("alarmDateTime: " + alarmDateTime);
         //if current time >= this alarm, ring bell.
@@ -75,7 +83,6 @@ public class Alarm implements Observer {
         return "Alarm{" + "alarmDateTime=" + alarmDateTime + '}';
     }
 
-    
 }
 
 //Date date=  dt.parse(str); // GET TIME HERE

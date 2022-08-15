@@ -28,7 +28,6 @@ public class Model extends Observable {
 
     public Model() {
         q = new SortedArrayPriorityQueue<Alarm>(MAX_ALARM_COUNT);
-//        update();
     }
 
     public void update() {
@@ -39,16 +38,17 @@ public class Model extends Observable {
         oldSecond = second;
         second = date.get(Calendar.SECOND);
         if (oldSecond != second) {
-            System.out.println("changed...");
             setChanged();
             notifyObservers();
+
+            System.out.println("changed...");
         }
+
     }
 
     public void addAlarm(Date alarmDate) throws QueueOverflowException {
         Alarm alarm = new Alarm(alarmDate);
-        q.add(alarm, 1);
-        this.addObserver(alarm);
+        q.add(alarm, MAX_ALARM_COUNT - 1);
     }
 
     public Alarm nextAlarm() {
@@ -56,7 +56,16 @@ public class Model extends Observable {
             return q.head();
         } catch (QueueUnderflowException ex) {
             System.out.println("No Alarms found.");
-           return null;
+            return null;
+        }
+    }
+
+    public void removeAlarm() {
+        try {
+            //remove alarm from the queue.
+            q.remove();
+        } catch (QueueUnderflowException ex) {
+
         }
     }
 

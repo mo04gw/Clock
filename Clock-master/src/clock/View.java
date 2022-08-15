@@ -190,17 +190,36 @@ public class View implements Observer {
 
     public void update(Observable o, Object arg) {
         panel.repaint();
-        if (arg == null) {
-            return;
-        }
-        System.out.println("arg: " + arg);
-        System.out.println("arg class name: " + arg.getClass().getName());
-        Alarm nextAlarm = model.nextAlarm();
+        verifyAlarmTime();
 
-        System.out.println("nextAlarm: " + nextAlarm);
-        if (nextAlarm != null) {
-            nextAlarm.update(o, arg);
-
-        }
     }
+
+    private boolean verifyAlarmTime() {
+        Alarm nextAlarm = model.nextAlarm();
+        if (nextAlarm == null) {
+            return false;
+        }
+        System.out.println("nextAlarm: " + nextAlarm);
+
+        Date alarmDateTime = nextAlarm.getDate();
+        if (alarmDateTime == null) {
+            return false;
+        }
+
+        Date currentDateTime = new Date();
+        System.out.println("currentDateTime: " + currentDateTime);
+        System.out.println("alarmDateTime: " + alarmDateTime);
+        //if current time >= this alarm, ring bell.
+        if (currentDateTime.equals(alarmDateTime) || currentDateTime.after(alarmDateTime)) {
+            model.removeAlarm();
+            JOptionPane.showMessageDialog(null, "Its time: " + alarmDateTime);
+            System.out.println("******************* ");
+            System.out.println("VIEW...... >> Its time: " + alarmDateTime);
+            System.out.println("******************* ");
+        }
+        System.out.println("---------------------");
+        return false;
+
+    }
+
 }
