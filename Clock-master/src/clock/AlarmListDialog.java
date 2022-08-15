@@ -37,12 +37,9 @@ public class AlarmListDialog extends JDialog {
 
     private MyActionListener action;
 
-
     //Asks for parameters to set an alarm (asking from user to click button or menu add alarm)
     //Changed from View Class to -> NewAlarm (model)
     //After pressing the button, it will check if the date or time selected are actually bigger than the actual date before setting the alarm
-    
-    
     public AlarmListDialog(JFrame frame, Model model) {
         setTitle("Add Alarm");
         setModal(true);
@@ -54,21 +51,19 @@ public class AlarmListDialog extends JDialog {
         //format = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
         this.setSize(200, 300);
-//        this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setPreferredSize(new Dimension(400,100));
+        this.setPreferredSize(new Dimension(400, 100));
 
         Container container = this.getContentPane();
         container.setLayout(new FlowLayout());
 
         jPanel = new JPanel();
-        
+
         dateModel = new SpinnerDateModel();
         jSpinner = new JSpinner(dateModel);
         //JComponent editor = JSpinner.DateEditor(jSpinner, format.toPattern());
         jSpinner.setEditor(new JSpinner.DateEditor(jSpinner, "HH:mm dd/MM/yyyy"));
 
-       
         //Disable edition from keyboard, so the user cannot input '550' hours for example
         //double click in each field to change the time with the arrows is not clear either for an user?!
         JFormattedTextField formatedText = ((JSpinner.DefaultEditor) jSpinner.getEditor()).getTextField();
@@ -79,9 +74,11 @@ public class AlarmListDialog extends JDialog {
         container.add(new JLabel("Add alarm"));
         container.add(jSpinner);
 
+        //Buttons to add alarm and cancel
         jButtonAdd = new JButton("Add Alarm");
         jButtonCancel = new JButton("Cancel");
 
+        //Adding the buttons to the container
         container.add(jButtonAdd);
         container.add(jButtonCancel);
 
@@ -93,13 +90,11 @@ public class AlarmListDialog extends JDialog {
         //Display the window
         this.pack();
 
+        //Test to check if I can reach to this point in the code
         //System.out.println("----------------------------------->here");
-
     }
-    
-    
-    
-    
+
+    //Not fully implemented yet. It should  validate and trigger a dialogue box, so that the date and hour of the alarm are greater than the current time
     public static boolean isAfterToday(int year, int month, int day) {
         Calendar today = Calendar.getInstance();
         Calendar myDate = Calendar.getInstance();
@@ -108,11 +103,9 @@ public class AlarmListDialog extends JDialog {
 
         if (myDate.before(today)) {
             return false;
-
         }
         return true;
     }
-
 
     //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA
     //Listen for events, implemented after adding the buttons
@@ -130,14 +123,12 @@ public class AlarmListDialog extends JDialog {
 //                    model.addObserver(new Alarm(alarmDate));
                     model.addAlarm(alarmDate);
                 } catch (QueueOverflowException ex) {
-                   JOptionPane.showMessageDialog(frame, "Max alarm limit reached.", "Error", JOptionPane.ERROR_MESSAGE);
-                   return;
+                    JOptionPane.showMessageDialog(frame, "Max alarm limit reached.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-                
-                   
+
             } else if (e.getSource() == jButtonCancel) {
                 System.out.println("Cancel Alarm");
-                
                 AlarmListDialog.this.dispose();
             }
         }
@@ -146,5 +137,4 @@ public class AlarmListDialog extends JDialog {
     public void update(Observable o, Object o1) {
 
     }
-
 }

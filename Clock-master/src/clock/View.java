@@ -34,6 +34,7 @@ public class View implements Observer {
     private int size;
     JFrame frame;
     Calendar calendar;
+    JLabel labelAlarm;
 
     //Declaring parameters to be used in Alarm.java later & userInput to get the time to set the alarm for the user
     String name;
@@ -54,24 +55,24 @@ public class View implements Observer {
         //Menu bar
         JMenuBar menuBar = new JMenuBar();
         JMenu addMenu = new JMenu("Add");
-        JMenu editMenu = new JMenu("Edit");
+        JMenu seeMenu = new JMenu("Edit");
         JMenu closeMenu = new JMenu("Exit");
 
         //Menu Items
         JMenuItem menuAddAlarm = new JMenuItem("Add new Alarm", 'A');
-        JMenuItem editAlarm = new JMenuItem("Edit Alarm", 'E');
+        JMenuItem menuSeeAlarm = new JMenuItem("See Alarm", 'S');
         JMenuItem menuDeleteAlarm = new JMenuItem("Delete Alarm", 'D');
         JMenuItem close = new JMenuItem("Exit Program", 'X');
 
         //Adding to Menu items options
         addMenu.add(menuAddAlarm);
-        editMenu.add(editAlarm);
-        editMenu.add(menuDeleteAlarm);
+        seeMenu.add(menuSeeAlarm);
+        seeMenu.add(menuDeleteAlarm);
         closeMenu.add(close);
 
         //Assigning each Menu Bar to each option
         menuBar.add(addMenu);
-        menuBar.add(editMenu);
+        menuBar.add(seeMenu);
         menuBar.add(closeMenu);
 
         //JPanel Clock
@@ -144,11 +145,17 @@ public class View implements Observer {
             }
         });
 
+          menuSeeAlarm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toString();
+            }
+        });
         //Adding the listener to the button
         btns.add(buttonAdd);
         btns.add(buttonRemove);
 
-        //btns.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        
         //BorderLayout
         frame.add(panel_top, BorderLayout.NORTH);
         frame.add(panel_left, BorderLayout.WEST);
@@ -167,6 +174,7 @@ public class View implements Observer {
 
         NewAlarmDialog alarm = new NewAlarmDialog(frame, model);
         alarm.setVisible(true);
+        
 
         /*     try {
             sortedArrayPriorityQueue.add(alarm, 0);
@@ -193,13 +201,11 @@ public class View implements Observer {
 
                 System.out.println("Add Alarm");
                 createAlarm(e);
-
+               
             } else if (e.getSource() == buttonRemove) {
                 deleteAlarm();
 
-            }/*else if (e.getSource() == menuAddAlarm) {
-                System.out.println("menuAddAlarm");
-            }*/
+            }
         }
     }
 
@@ -214,7 +220,8 @@ public class View implements Observer {
         if (nextAlarm == null) {
             return false;
         }
-        System.out.println("nextAlarm: " + nextAlarm);
+        //Test on the console to see if I am passing correctly the parameter
+        //System.out.println("nextAlarm: " + nextAlarm);
 
         Date alarmDateTime = nextAlarm.getDate();
         if (alarmDateTime == null) {
@@ -222,17 +229,24 @@ public class View implements Observer {
         }
 
         Date currentDateTime = new Date();
-        System.out.println("currentDateTime: " + currentDateTime);
-        System.out.println("alarmDateTime: " + alarmDateTime);
-        //if current time >= this alarm, ring bell.
+        
+        //Tests performed to see the output on the current time and the alarm time
+        //System.out.println("currentDateTime: " + currentDateTime);
+        //System.out.println("alarmDateTime: " + alarmDateTime);
+        
+        
+        //Future implementation could be if current time >= this alarm, ring bell with sound
+        //At the moment display a dialogue box with a warning + showing the date and time of the alarm to user
+        
         if (currentDateTime.equals(alarmDateTime) || currentDateTime.after(alarmDateTime)) {
             model.removeAlarm();
-            JOptionPane.showMessageDialog(null, "Its time: " + alarmDateTime);
-            System.out.println("******************* ");
-            System.out.println("VIEW...... >> Its time: " + alarmDateTime);
-            System.out.println("******************* ");
+            JOptionPane.showMessageDialog(null, "Alarm! : " + alarmDateTime, "Alarm ringing", JOptionPane.WARNING_MESSAGE);
+            //Tests performed to see the output on the alarmDateTime on the console
+          //  System.out.println("******************* ");
+          //  System.out.println("VIEW...... >> Its time: " + alarmDateTime);
+          //  System.out.println("******************* ");
         }
-        System.out.println("---------------------");
+        //System.out.println("---------------------");
         return false;
 
     }

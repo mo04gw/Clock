@@ -21,6 +21,7 @@ public class Controller {
             }
         };
         
+        //Changed to 1000 ms. Reference: " Java Timer Thread Operation, question asked by 'jashdf' " , Stack Overflow, 29-10-2019, [online] Accessed: 15/08/2022
         timer = new Timer(1000, listener);
         timer.start();
     }

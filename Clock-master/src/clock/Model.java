@@ -1,24 +1,20 @@
 package clock;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
+
+
 import java.util.Observable;
 //import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import queuemanager.Person;
-import queuemanager.PriorityQueue;
 import queuemanager.QueueOverflowException;
 import queuemanager.QueueUnderflowException;
 import queuemanager.SortedArrayPriorityQueue;
 
 public class Model extends Observable {
 
-    private static final int MAX_ALARM_COUNT = 3;
+    //Adding the maximum of capacity of the queue to store alarms
+    private static final int MAX_ALARM_COUNT = 5;
 
     int hour = 0;
     int minute = 0;
@@ -42,7 +38,8 @@ public class Model extends Observable {
             setChanged();
             notifyObservers();
 
-            System.out.println("changed...");
+            //Test checking observer and changes
+            // System.out.println("changed...");
         }
 
     }
@@ -75,9 +72,9 @@ public class Model extends Observable {
         intPriority = -1 * intPriority;
 
         q.add(alarm, intPriority);
-        System.out.println("------------------------");
+        // System.out.println("------------------------");
         System.out.println(q);
-        System.out.println("------------------------");
+        // System.out.println("------------------------");
     }
 
     public Alarm nextAlarm() {
@@ -93,7 +90,7 @@ public class Model extends Observable {
         try {
             //remove alarm from the queue.
             q.remove();
-            System.out.println("After removal:" + q);
+            //System.out.println("After removal:" + q);
         } catch (QueueUnderflowException ex) {
 
         }

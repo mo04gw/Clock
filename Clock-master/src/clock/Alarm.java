@@ -1,19 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package clock;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JOptionPane;
-import queuemanager.SortedArrayPriorityQueue;
-import queuemanager.PriorityQueue;
-import queuemanager.QueueOverflowException;
 
 /**
  *
@@ -64,30 +54,24 @@ public class Alarm implements Observer {
             return;
         }
         Date currentDateTime = (Date) arg;
-        System.out.println("currentDateTime: " + currentDateTime);
-        System.out.println("alarmDateTime: " + alarmDateTime);
-        //if current time >= this alarm, ring bell.
+        //Test on the console, trying to fix de difference beween current time and time of the alarm
+        //System.out.println("currentDateTime: " + currentDateTime);
+        //System.out.println("alarmDateTime: " + alarmDateTime);
         if (alarmDateTime.equals(currentDateTime) || alarmDateTime.after(currentDateTime)) {
-//            JOptionPane.showMessageDialog(null, "Its time: " + alarmDateTime);
-            System.out.println("******************* ");
-            System.out.println("Its time: " + alarmDateTime);
-            System.out.println("******************* ");
 
+            //Tests on the console
+            //   System.out.println("******************* ");
+            //  System.out.println("Its time: " + alarmDateTime);
+            //  System.out.println("******************* ");
         }
-        System.out.println("---------------------");
+        //System.out.println("---------------------");
 
     }
 
+    //Returning to String the alarm Date Time (similar to priority queue)
     @Override
     public String toString() {
         return "Alarm{" + "alarmDateTime=" + alarmDateTime + '}';
     }
 
 }
-
-//Date date=  dt.parse(str); // GET TIME HERE
-//Calendar cal=Calendar.getInstance();
-//cal.setTime(date);
-//String hours=cal.get(Calendar.HOUR);
-//String minutes=cal.get(Calendar.MINUTE);
-

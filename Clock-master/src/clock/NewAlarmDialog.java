@@ -97,23 +97,7 @@ public class NewAlarmDialog extends JDialog {
 
     }
     
-    
-    
-    
-    public static boolean isAfterToday(int year, int month, int day) {
-        Calendar today = Calendar.getInstance();
-        Calendar myDate = Calendar.getInstance();
-
-        myDate.set(year, month, day);
-
-        if (myDate.before(today)) {
-            return false;
-
-        }
-        return true;
-    }
-
-
+ 
     //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA
     //Listen for events, implemented after adding the buttons
     //https://stackoverflow.com/questions/30908303/i-cannot-close-jframe?noredirect=1&lq=1 (Dispose dialog box)
@@ -126,6 +110,7 @@ public class NewAlarmDialog extends JDialog {
                 try {
                     System.out.println("Add Alarm");
                     Date alarmDate = (Date) jSpinner.getValue();
+                    JOptionPane.showMessageDialog(frame, "Alarm Added! Time of the alarm: " + alarmDate, "Alarm set", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("New Alarm Time: " + alarmDate);
 //                    model.addObserver(new Alarm(alarmDate));
                     model.addAlarm(alarmDate);
@@ -136,7 +121,7 @@ public class NewAlarmDialog extends JDialog {
                 
                    
             } else if (e.getSource() == jButtonCancel) {
-                System.out.println("Cancel Alarm");
+                //System.out.println("Cancel Alarm");
                 
                 NewAlarmDialog.this.dispose();
             }
