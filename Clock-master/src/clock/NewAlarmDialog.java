@@ -10,6 +10,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.awt.FlowLayout;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import queuemanager.QueueOverflowException;
 
 /**
  *
@@ -18,11 +21,12 @@ import java.text.SimpleDateFormat;
  * @update: NewAlarm is now in a different class to follow the
  * Model-View-Controller Architecture
  */
-public class NewAlarm extends JFrame {
+public class NewAlarmDialog extends JDialog {
+
+    private final JFrame frame;
 
     Model model;
     Alarm alarm;
-    JFrame jFrame;
     Date date;
     JPanel jPanel;
     SpinnerDateModel dateModel;
@@ -39,20 +43,22 @@ public class NewAlarm extends JFrame {
     //After pressing the button, it will check if the date or time selected are actually bigger than the actual date before setting the alarm
     
     
-    public NewAlarm( Model model) {
+    public NewAlarmDialog(JFrame frame, Model model) {
+        setTitle("Add Alarm");
+        setModal(true);
+
+        this.frame = frame;
 
         //references: https://stackoverflow.com/questions/21179770/jpinner-setmodel-not-allowing-to-change-value/21185580#21185580   - - https://docs.oracle.com/javase/8/docs/technotes/guides/swing/1.4/spinner.html
         this.model = model;
-        this.alarm = alarm;
         //format = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
-        jFrame = new JFrame("Add Alarms");
-        jFrame.setSize(200, 300);
-        jFrame.setVisible(true);
-        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        jFrame.setPreferredSize(new Dimension(400,100));
+        this.setSize(200, 300);
+//        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setPreferredSize(new Dimension(400,100));
 
-        Container container = jFrame.getContentPane();
+        Container container = this.getContentPane();
         container.setLayout(new FlowLayout());
 
         jPanel = new JPanel();
@@ -85,7 +91,7 @@ public class NewAlarm extends JFrame {
         jButtonCancel.addActionListener(action);
 
         //Display the window
-        jFrame.pack();
+        this.pack();
 
         //System.out.println("----------------------------------->here");
 
@@ -117,16 +123,22 @@ public class NewAlarm extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == jButtonAdd) {
 
-                System.out.println("Add Alarm");
-                Date value = (Date) jSpinner.getValue();
-                System.out.println("jSpinner" + value);
-             
+                try {
+                    System.out.println("Add Alarm");
+                    Date alarmDate = (Date) jSpinner.getValue();
+                    System.out.println("New Alarm Time: " + alarmDate);
+//                    model.addObserver(new Alarm(alarmDate));
+                    model.addAlarm(alarmDate);
+                } catch (QueueOverflowException ex) {
+                   JOptionPane.showMessageDialog(frame, "Max alarm limit reached.", "Error", JOptionPane.ERROR_MESSAGE);
+                   return;
+                }
                 
                    
             } else if (e.getSource() == jButtonCancel) {
                 System.out.println("Cancel Alarm");
                 
-                jFrame.dispose();
+                NewAlarmDialog.this.dispose();
             }
         }
     }

@@ -21,7 +21,7 @@ public class Controller {
             }
         };
         
-        timer = new Timer(100, listener);
+        timer = new Timer(1000, listener);
         timer.start();
     }
 }

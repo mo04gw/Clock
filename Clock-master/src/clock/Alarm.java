@@ -8,77 +8,79 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.JOptionPane;
 import queuemanager.SortedArrayPriorityQueue;
 import queuemanager.PriorityQueue;
 import queuemanager.QueueOverflowException;
 
-
 /**
  *
- * @author heidi 
- * 
+ * @author heidi
+ *
  * @notes: Class Alarm, stores alarm information.
  */
-public class Alarm {
+public class Alarm implements Observer {
 
-    SortedArrayPriorityQueue<NewAlarm> storedAlarm;
-    Date date;
-    Alarm alarm;
+    Date alarmDateTime;
+
     DateFormat dateFormat;
     DateFormat dateFormatPriority;
     int hours;
     int min;
     int priority;
-    
 
     public Alarm(Date date) {
-        storedAlarm = new SortedArrayPriorityQueue(7);
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
-        //datePriority = new SimpleDateFormat("HHmmddMMyyyy");
-        this.date = date;
-        
- 
-        String pattern = "MM-dd-yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        System.out.println("date" + date);
-        
-        
-        alarm = new Alarm(date);
-        
-        if(!date.before(new Date())){
-            long longPriority = Long.parseLong(dateFormatPriority.format(date));
-        }
-        
+        this.alarmDateTime = date;
+
+//        dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        //datePriority = new SimpleDateFormat("HHmmddMMyyyy");
+//
+//        String pattern = "MM-dd-yyyy";
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+//        System.out.println("date" + date);
         //References https://stackoverflow.com/questions/25811650/trying-to-compare-date-picker-time-to-current-time-ios
         //if ([date.DatePicker.date compare:(new Date())] == NSOrderedDescending) {
         //System.out.print("We have a problem");
         //}
     }
-    
-    public Date getDate(){
-        return date;
+
+    public Date getDate() {
+        return alarmDateTime;
     }
-    
-    
-        
-        //alarm = new Alarm(datetime);
-      /*  if (datetime.after(new Date())){
-            long longPriority = Long.parseLong(dateFormat.format(datetime));
-            String stringPriority =String.valueOf(longPriority);
-            storedAlarm.add(stringPriority, priority);*/
-            
-        
-        
-       
+
+    @Override
+    public void update(Observable o, Object o1) {
+        if (o1 == null) {
+            return;
+        }
+        Date currentDateTime = (Date) o1;
+        System.out.println("currentDateTime: " + currentDateTime);
+        System.out.println("alarmDateTime: " + alarmDateTime);
+        //if current time >= this alarm, ring bell.
+        if (alarmDateTime.equals(currentDateTime) || alarmDateTime.after(currentDateTime)) {
+//            JOptionPane.showMessageDialog(null, "Its time: " + alarmDateTime);
+            System.out.println("******************* ");
+            System.out.println("Its time: " + alarmDateTime);
+            System.out.println("******************* ");
+
+        }
+        System.out.println("---------------------");
+
     }
+
+    @Override
+    public String toString() {
+        return "Alarm{" + "alarmDateTime=" + alarmDateTime + '}';
+    }
+
     
-    //Date date=  dt.parse(str); // GET TIME HERE
-    //Calendar cal=Calendar.getInstance();
-    //cal.setTime(date);
-    //String hours=cal.get(Calendar.HOUR);
-    //String minutes=cal.get(Calendar.MINUTE);
-    
-    
-     
-    
+}
+
+//Date date=  dt.parse(str); // GET TIME HERE
+//Calendar cal=Calendar.getInstance();
+//cal.setTime(date);
+//String hours=cal.get(Calendar.HOUR);
+//String minutes=cal.get(Calendar.MINUTE);
 

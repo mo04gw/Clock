@@ -8,8 +8,9 @@ import java.util.Observer;
 import java.util.Observable;
 import java.util.Calendar;
 import java.util.Date;
-
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import queuemanager.QueueUnderflowException;
 
 /* 
 
@@ -23,10 +24,8 @@ import java.util.Date;
  * --> " Choobtorials, Java GUI Tutorial Part 2 - Creating an Event Handler, 18 Feb. 2019, -[online]- Available at:  https://www.youtube.com/watch?v=cyZzPo0ssp8 ,(Accessed: 02/08/2022)"
  * --> " Java GUI by Bro Code, YouTube, 14 Sep. 2020, [online] Available at: https://www.youtube.com/watch?v=Kmgo00avvEw (Accessed: 02/08/2022)" 
  * --> " Java Custom SpinnerDateModel to edit only hour and minute , Answered by MadProgrammer, Stack Overflow, 16 Feb. 2018, [online] Available at: https://stackoverflow.com/questions/48834383/java-custom-spinnerdatemodel-to-edit-only-hour-and-minute (Accessed: 08/08/2022)"
-*/
-
+ */
 public class View implements Observer {
-    
 
     ClockPanel panel;
     //Global buttons to be called from ActionEvent
@@ -35,16 +34,18 @@ public class View implements Observer {
     private int size;
     JFrame frame;
     Calendar calendar;
-    
+
     //Declaring parameters to be used in Alarm.java later & userInput to get the time to set the alarm for the user
     String name;
     int hours;
     int min;
-    
-    NewAlarm newAlarm;
-   
-    
+
+    NewAlarmDialog newAlarm;
+    private final Model model;
+
     public View(Model model) {
+
+        this.model = model;
 
         frame = new JFrame();
         calendar = Calendar.getInstance();
@@ -55,35 +56,33 @@ public class View implements Observer {
         JMenu addMenu = new JMenu("Add");
         JMenu editMenu = new JMenu("Edit");
         JMenu closeMenu = new JMenu("Exit");
-        
+
         //Menu Items
         JMenuItem menuAddAlarm = new JMenuItem("Add new Alarm", 'A');
         JMenuItem editAlarm = new JMenuItem("Edit Alarm", 'E');
         JMenuItem deleteAlarm = new JMenuItem("Delete Alarm", 'D');
         JMenuItem close = new JMenuItem("Exit Program", 'X');
-        
+
         //Adding to Menu items options
         addMenu.add(menuAddAlarm);
         editMenu.add(editAlarm);
         editMenu.add(deleteAlarm);
         closeMenu.add(close);
- 
+
         //Assigning each Menu Bar to each option
         menuBar.add(addMenu);
         menuBar.add(editMenu);
         menuBar.add(closeMenu);
-        
-        
+
         //JPanel Clock
         panel = new ClockPanel(model);
-        
+
         //Frame set up
         //SetDefaultCloseOperation could be changed to DO_NOTHING_ON_CLOSE in the case of storing or making proper use of the Alarm function
         //Reference of it: https://www.clear.rice.edu/comp310/JavaResources/frame_close.html
-        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Java Clock");
-        frame.setSize(600,500);
+        frame.setSize(600, 500);
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
         frame.setJMenuBar(menuBar);
@@ -122,7 +121,7 @@ public class View implements Observer {
         action = new MyActionListener();
         buttonAdd.addActionListener(action);
         buttonRemove.addActionListener(action);
-        
+
         //Action Listener for menu items
         close.addActionListener(new ActionListener() {
             @Override
@@ -130,8 +129,8 @@ public class View implements Observer {
                 System.exit(0);
             }
         });
-        
-         menuAddAlarm.addActionListener(new ActionListener() {
+
+        menuAddAlarm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createAlarm(e);
@@ -159,9 +158,9 @@ public class View implements Observer {
     //References: https://www.youtube.com/watch?v=VL4hNtBQZuU
     public void createAlarm(ActionEvent e) {
 
-        
-        NewAlarm alarm = new NewAlarm(new Model());
-       
+        NewAlarmDialog alarm = new NewAlarmDialog(frame, model);
+        alarm.setVisible(true);
+
         /*     try {
             sortedArrayPriorityQueue.add(alarm, 0);
         } catch(QueueOverflowException queueOverflowException) {
@@ -169,7 +168,6 @@ public class View implements Observer {
         }
          */
     }
-
 
     //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA
     //Listen for events, implemented after adding the buttons
@@ -189,10 +187,20 @@ public class View implements Observer {
             }*/
         }
     }
-    
-   
 
     public void update(Observable o, Object arg) {
         panel.repaint();
+        if (arg == null) {
+            return;
+        }
+        System.out.println("arg: " + arg);
+        System.out.println("arg class name: " + arg.getClass().getName());
+        Alarm nextAlarm = model.nextAlarm();
+
+        System.out.println("nextAlarm: " + nextAlarm);
+        if (nextAlarm != null) {
+            nextAlarm.update(o, arg);
+
+        }
     }
 }
