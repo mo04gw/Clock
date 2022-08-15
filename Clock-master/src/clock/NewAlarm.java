@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Calendar;
 import java.util.Date;
 import java.awt.FlowLayout;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -20,6 +21,7 @@ import java.awt.FlowLayout;
 public class NewAlarm extends JFrame {
 
     Model model;
+    Alarm alarm;
     JFrame jFrame;
     Date date;
     JPanel jPanel;
@@ -27,55 +29,56 @@ public class NewAlarm extends JFrame {
     JSpinner jSpinner;
     JButton jButtonAdd;
     JButton jButtonCancel;
+    SimpleDateFormat format;
+
     private MyActionListener action;
+
 
     //Asks for parameters to set an alarm (asking from user to click button or menu add alarm)
     //Changed from View Class to -> NewAlarm (model)
     //After pressing the button, it will check if the date or time selected are actually bigger than the actual date before setting the alarm
     
     
-    public NewAlarm(Model model) {
+    public NewAlarm( Model model) {
 
         //references: https://stackoverflow.com/questions/21179770/jpinner-setmodel-not-allowing-to-change-value/21185580#21185580   - - https://docs.oracle.com/javase/8/docs/technotes/guides/swing/1.4/spinner.html
-        
         this.model = model;
+        this.alarm = alarm;
+        //format = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
         jFrame = new JFrame("Add Alarms");
         jFrame.setSize(200, 300);
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        jFrame.setPreferredSize(new Dimension(300, 200));
+        jFrame.setPreferredSize(new Dimension(400,100));
 
         Container container = jFrame.getContentPane();
         container.setLayout(new FlowLayout());
 
         jPanel = new JPanel();
-
+        
         dateModel = new SpinnerDateModel();
-       
         jSpinner = new JSpinner(dateModel);
+        //JComponent editor = JSpinner.DateEditor(jSpinner, format.toPattern());
+        jSpinner.setEditor(new JSpinner.DateEditor(jSpinner, "HH:mm dd/MM/yyyy"));
 
-        
-        jSpinner.setEditor(new JSpinner.DateEditor(jSpinner, "hh:mm:ss dd/MM/yyyy"));
-        
+       
         //Disable edition from keyboard, so the user cannot input '550' hours for example
         //double click in each field to change the time with the arrows is not clear either for an user?!
-        
-         JFormattedTextField formatedText = ((JSpinner.DefaultEditor)jSpinner.getEditor()).getTextField();
+        JFormattedTextField formatedText = ((JSpinner.DefaultEditor) jSpinner.getEditor()).getTextField();
         formatedText.setEditable(false);
         formatedText.setEnabled(true);
         formatedText.setBackground(Color.white);
-        
+
         container.add(new JLabel("Add alarm"));
         container.add(jSpinner);
 
         jButtonAdd = new JButton("Add Alarm");
         jButtonCancel = new JButton("Cancel");
-        
-        
+
         container.add(jButtonAdd);
         container.add(jButtonCancel);
-        
+
         //Adding listeners to the buttons
         action = new MyActionListener();
         jButtonAdd.addActionListener(action);
@@ -83,14 +86,14 @@ public class NewAlarm extends JFrame {
 
         //Display the window
         jFrame.pack();
- 
-     
-        Date value = (Date) jSpinner.getValue();
+
         //System.out.println("----------------------------------->here");
-        System.out.println("jSpinner" + value);
 
     }
-
+    
+    
+    
+    
     public static boolean isAfterToday(int year, int month, int day) {
         Calendar today = Calendar.getInstance();
         Calendar myDate = Calendar.getInstance();
@@ -115,7 +118,10 @@ public class NewAlarm extends JFrame {
             if (e.getSource() == jButtonAdd) {
 
                 System.out.println("Add Alarm");
-
+                Date value = (Date) jSpinner.getValue();
+                System.out.println("jSpinner" + value);
+             
+                
                    
             } else if (e.getSource() == jButtonCancel) {
                 System.out.println("Cancel Alarm");

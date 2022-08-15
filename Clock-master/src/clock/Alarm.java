@@ -4,6 +4,7 @@
  */
 package clock;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,42 +21,64 @@ import queuemanager.QueueOverflowException;
  */
 public class Alarm {
 
+    SortedArrayPriorityQueue<NewAlarm> storedAlarm;
+    Date date;
+    Alarm alarm;
+    DateFormat dateFormat;
+    DateFormat dateFormatPriority;
     int hours;
     int min;
     int priority;
     
-    SortedArrayPriorityQueue<NewAlarm> sortedArrayPriorityQueue;
-    Alarm alarm;
 
-    public Alarm(Date alarm) {
-       
-        SimpleDateFormat  dt = new SimpleDateFormat("hh:mm"); 
-
+    public Alarm(Date date) {
+        storedAlarm = new SortedArrayPriorityQueue(7);
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+        //datePriority = new SimpleDateFormat("HHmmddMMyyyy");
+        this.date = date;
+        
+ 
+        String pattern = "MM-dd-yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        System.out.println("date" + date);
+        
+        
+        alarm = new Alarm(date);
+        
+        if(!date.before(new Date())){
+            long longPriority = Long.parseLong(dateFormatPriority.format(date));
+        }
+        
+        //References https://stackoverflow.com/questions/25811650/trying-to-compare-date-picker-time-to-current-time-ios
+        //if ([date.DatePicker.date compare:(new Date())] == NSOrderedDescending) {
+        //System.out.print("We have a problem");
+        //}
     }
-
-  
     
-    //https://stackoverflow.com/questions/14922782/convert-string-date-to-alarm
+    public Date getDate(){
+        return date;
+    }
     
-    public void AddAlarm(){
+    
+        
+        //alarm = new Alarm(datetime);
+      /*  if (datetime.after(new Date())){
+            long longPriority = Long.parseLong(dateFormat.format(datetime));
+            String stringPriority =String.valueOf(longPriority);
+            storedAlarm.add(stringPriority, priority);*/
+            
+        
+        
+       
+    }
     
     //Date date=  dt.parse(str); // GET TIME HERE
     //Calendar cal=Calendar.getInstance();
     //cal.setTime(date);
     //String hours=cal.get(Calendar.HOUR);
     //String minutes=cal.get(Calendar.MINUTE);
-    }
     
-       public void createAlarm(Date datetime) {
-
-        //new alarm object
-        alarm = new Alarm(datetime);
-        sortedArrayPriorityQueue = new SortedArrayPriorityQueue(3);
-
-        //DateFormat date (HH:mm dd/MM/yyyy) (Input from newAlarm)
-        //DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
-        //Formatting the date &time from the JSpinner
-
-    }
     
-}
+     
+    
+

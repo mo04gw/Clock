@@ -34,7 +34,6 @@ public class View implements Observer {
     private MyActionListener action;
     private int size;
     JFrame frame;
-    //Initializing Priority Queue
     Calendar calendar;
     
     //Declaring parameters to be used in Alarm.java later & userInput to get the time to set the alarm for the user
@@ -162,7 +161,7 @@ public class View implements Observer {
 
         
         NewAlarm alarm = new NewAlarm(new Model());
-
+       
         /*     try {
             sortedArrayPriorityQueue.add(alarm, 0);
         } catch(QueueOverflowException queueOverflowException) {
