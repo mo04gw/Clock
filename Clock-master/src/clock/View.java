@@ -60,13 +60,13 @@ public class View implements Observer {
         //Menu Items
         JMenuItem menuAddAlarm = new JMenuItem("Add new Alarm", 'A');
         JMenuItem editAlarm = new JMenuItem("Edit Alarm", 'E');
-        JMenuItem deleteAlarm = new JMenuItem("Delete Alarm", 'D');
+        JMenuItem menuDeleteAlarm = new JMenuItem("Delete Alarm", 'D');
         JMenuItem close = new JMenuItem("Exit Program", 'X');
 
         //Adding to Menu items options
         addMenu.add(menuAddAlarm);
         editMenu.add(editAlarm);
-        editMenu.add(deleteAlarm);
+        editMenu.add(menuDeleteAlarm);
         closeMenu.add(close);
 
         //Assigning each Menu Bar to each option
@@ -137,6 +137,13 @@ public class View implements Observer {
             }
         });
 
+        menuDeleteAlarm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteAlarm();
+            }
+        });
+
         //Adding the listener to the button
         btns.add(buttonAdd);
         btns.add(buttonRemove);
@@ -169,6 +176,13 @@ public class View implements Observer {
          */
     }
 
+    private void deleteAlarm() {
+        System.out.println("Delete Alarm");
+
+        model.removeAlarm();
+        JOptionPane.showMessageDialog(frame, "Removed the Next alarm.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA
     //Listen for events, implemented after adding the buttons
     private class MyActionListener implements ActionListener {
@@ -181,7 +195,8 @@ public class View implements Observer {
                 createAlarm(e);
 
             } else if (e.getSource() == buttonRemove) {
-                System.out.println("Delete Alarm");
+                deleteAlarm();
+
             }/*else if (e.getSource() == menuAddAlarm) {
                 System.out.println("menuAddAlarm");
             }*/
