@@ -31,19 +31,13 @@ public class View implements Observer {
     //Global buttons to be called from ActionEvent
     private JButton buttonAdd, buttonRemove;
     private MyActionListener action;
-    private int size;
     JFrame frame;
     Calendar calendar;
     JLabel labelAlarm;
-
-    //Declaring parameters to be used in Alarm.java later & userInput to get the time to set the alarm for the user
-    String name;
-    int hours;
-    int min;
-
     NewAlarmDialog newAlarm;
     private final Model model;
 
+    
     public View(Model model) {
 
         this.model = model;
@@ -83,7 +77,7 @@ public class View implements Observer {
         //Reference of it: https://www.clear.rice.edu/comp310/JavaResources/frame_close.html
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Java Clock");
-        frame.setSize(600, 500);
+        frame.setSize(800, 500);
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
         frame.setJMenuBar(menuBar);
@@ -124,6 +118,8 @@ public class View implements Observer {
         buttonRemove.addActionListener(action);
 
         //Action Listener for menu items
+        
+        //Menu -> exit: Close the program
         close.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,6 +127,7 @@ public class View implements Observer {
             }
         });
 
+        //Menu -> addAlarm: createAlarm
         menuAddAlarm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,6 +135,7 @@ public class View implements Observer {
             }
         });
 
+        //Menu -> delete Alarm -> deleteAlarm();
         menuDeleteAlarm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,6 +143,7 @@ public class View implements Observer {
             }
         });
 
+        //Menu -> Actions - see Alarm -> deleteAlarm();
           menuSeeAlarm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,21 +173,13 @@ public class View implements Observer {
 
         NewAlarmDialog alarm = new NewAlarmDialog(frame, model);
         alarm.setVisible(true);
-        
-
-        /*     try {
-            sortedArrayPriorityQueue.add(alarm, 0);
-        } catch(QueueOverflowException queueOverflowException) {
-            queueOverflowException.printStackTrace();
-        }
-         */
     }
 
     private void deleteAlarm() {
         System.out.println("Delete Alarm");
-
+        
         model.removeAlarm();
-        JOptionPane.showMessageDialog(frame, "Removed the Next alarm.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(frame, "Removed the Next alarm.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
     }
 
     //Reference: Part 8 | Creating one ActionListener for Multiple Buttons using ActionEvent | Java GUI Tutorial - https://www.youtube.com/watch?v=OI-TFbHQhtA

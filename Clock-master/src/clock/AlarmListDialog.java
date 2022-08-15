@@ -126,7 +126,6 @@ public class AlarmListDialog extends JDialog {
                     JOptionPane.showMessageDialog(frame, "Max alarm limit reached.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
             } else if (e.getSource() == jButtonCancel) {
                 System.out.println("Cancel Alarm");
                 AlarmListDialog.this.dispose();

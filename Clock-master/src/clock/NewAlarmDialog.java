@@ -54,7 +54,6 @@ public class NewAlarmDialog extends JDialog {
         //format = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
         this.setSize(200, 300);
-//        this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setPreferredSize(new Dimension(400,100));
 

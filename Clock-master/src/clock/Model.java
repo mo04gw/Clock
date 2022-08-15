@@ -7,6 +7,7 @@ import java.util.Observable;
 //import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import queuemanager.QueueOverflowException;
 import queuemanager.QueueUnderflowException;
 import queuemanager.SortedArrayPriorityQueue;
@@ -20,11 +21,12 @@ public class Model extends Observable {
     int minute = 0;
     int second = 0;
     int oldSecond = 0;
-
-    SortedArrayPriorityQueue<Alarm> q;
+    
+    //Initializing SortedArrayPriorityQueue
+    SortedArrayPriorityQueue<Alarm> queue;
 
     public Model() {
-        q = new SortedArrayPriorityQueue<Alarm>(MAX_ALARM_COUNT);
+        queue = new SortedArrayPriorityQueue<Alarm>(MAX_ALARM_COUNT);
     }
 
     public void update() {
@@ -71,29 +73,31 @@ public class Model extends Observable {
         //This results in later in time to 
         intPriority = -1 * intPriority;
 
-        q.add(alarm, intPriority);
+        queue.add(alarm, intPriority);
         // System.out.println("------------------------");
-        System.out.println(q);
+        System.out.println(queue);
         // System.out.println("------------------------");
     }
 
+    //Try to get the next alarm, if it doesn't find it, return null
     public Alarm nextAlarm() {
         try {
-            return q.head();
+            return queue.head();
         } catch (QueueUnderflowException ex) {
             System.out.println("No Alarms found.");
             return null;
         }
     }
 
-    public void removeAlarm() {
-        try {
-            //remove alarm from the queue.
-            q.remove();
-            //System.out.println("After removal:" + q);
-        } catch (QueueUnderflowException ex) {
-
-        }
+    public void removeAlarm() throws QueueUnderflowException {
+       
+            if (!queue.isEmpty()) {
+                queue.remove();
+            } else {
+                JOptionPane.showMessageDialog(null, "No Alarm found! ", "No alarm on the queue", JOptionPane.WARNING_MESSAGE);
+            
+            }
+            
     }
 
 }
